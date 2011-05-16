@@ -540,6 +540,23 @@ class Browser(UserAgentBase):
         """
         return self.open(self.click(*args, **kwds))
 
+    def submit_novisit(self, *args, **kwds):
+        """Submit current form without switching to new URL.
+
+        Browser state (including request, response, history, forms and links)
+        is left unchanged by calling this function.
+
+        The interface is the same as for .submit().
+
+        This is useful for things like fetching reports in a loop.
+
+        See also .open_novisit(), .retrieve().
+
+        """
+        request = self.click(*args, **kwds)
+        request.visit = False
+        return self.open(request)
+
     def click_link(self, link=None, **kwds):
         """Find a link and return a Request object for it.
 
